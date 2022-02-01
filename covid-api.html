@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center><h1>CHECK NUMBER PEOPLE IN COVID-19 for each day.</h1></center>
+    <table border="1" align="center" width="80%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>New case</th>
+                <th>New recovered</th>
+                <th>New death</th>
+            </tr>
+        </thead>
+        <tbody id = "tb" align="center">
+           
+        </tbody>
+    </table>
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    axios.get("https://covid19.ddc.moph.go.th/api/Cases/timeline-cases-all")
+    .then(function (response) {
+        // handle success
+        var tbodys = document.getElementById("tb");
+        for(var i=0; i<response.data.length; i++) {
+            var html = "<tr>"; 
+            html += "<td>"+response.data[i].txn_date+"</td>";
+            html += "<td>"+response.data[i].new_case+"</td>";
+            html += "<td>"+response.data[i].new_recovered+"</td>";
+            html += "<td>"+response.data[i].new_death+"</td>";
+            html += "</tr>"; 
+            console.log(html);
+
+            //tbodys.innerHTML = html; // replace
+            tbodys.insertAdjacentHTML("beforeend",html);
+        }
+        
+        console.log(response.data);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    })
+    .then(function () {
+        // always executed
+    });
+</script>
